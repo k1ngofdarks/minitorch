@@ -2,19 +2,43 @@ import random
 
 import chalk as ch
 from chalk import (
+    ArrowOpts,
+    P2,
+    Path,
     Trail,
+    V2,
+    circle,
+    concat,
     empty,
+    hstrut,
     make_path,
-    path,
     place_on_path,
     rectangle,
+    text,
     unit_x,
     unit_y,
+    vstrut,
 )
 from colour import Color
 from drawing import aqua, black, lightblue, lightred
 
 import minitorch
+
+white = Color("white")
+blue = Color("blue")
+
+
+class Linear:
+    """A two-input affine function for the decision-boundary illustrations."""
+
+    def __init__(self, w1, w2, b):
+        self.w1 = w1
+        self.w2 = w2
+        self.b = b
+
+    def forward(self, x1, x2):
+        return self.w1 * x1 + self.w2 * x2 + self.b
+
 
 random.seed(10)
 
