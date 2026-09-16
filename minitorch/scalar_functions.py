@@ -193,6 +193,7 @@ class LT(ScalarFunction):
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
         return 0.0, 0.0
 
+
 class EQ(ScalarFunction):
     "Equal function $f(x) =$ 1.0 if x is equal to y else 0.0"
 

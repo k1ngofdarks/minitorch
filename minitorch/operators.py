@@ -176,7 +176,7 @@ def reduce(
         res = start
         for x in ls:
             res = fn(x, res)
-        return res    
+        return res
     return reduce_fn
 
 
