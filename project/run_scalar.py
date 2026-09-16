@@ -2,6 +2,7 @@
 Be sure you have minitorch installed in you Virtual Env.
 >>> pip install -Ue .
 """
+import argparse
 import random
 
 import minitorch
@@ -109,8 +110,19 @@ class ScalarTrain:
 
 
 if __name__ == "__main__":
-    PTS = 50
-    HIDDEN = 2
-    RATE = 0.5
-    data = minitorch.datasets["Simple"](PTS)
-    ScalarTrain(HIDDEN).train(data, RATE)
+    parser = argparse.ArgumentParser(description="Train a MiniTorch scalar network.")
+    parser.add_argument("--dataset", choices=sorted(minitorch.datasets), default="Simple")
+    parser.add_argument("--points", type=int, default=50)
+    parser.add_argument("--hidden", type=int, default=2)
+    parser.add_argument("--rate", type=float, default=0.5)
+    parser.add_argument("--epochs", type=int, default=500)
+    args = parser.parse_args()
+
+    data = minitorch.datasets[args.dataset](args.points)
+    trainer = ScalarTrain(args.hidden)
+    trainer.train(data, args.rate, max_epochs=args.epochs)
+    correct = sum(
+        int((trainer.run_one(x).data > 0.5) == bool(y))
+        for x, y in zip(data.X, data.y)
+    )
+    print(f"Final accuracy: {correct / data.N :.2%}")
